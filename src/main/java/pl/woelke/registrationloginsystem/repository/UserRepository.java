@@ -6,5 +6,5 @@ import pl.woelke.registrationloginsystem.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    UserRepository findByEmail(String email);
+    User findByEmail(String email);
 }
