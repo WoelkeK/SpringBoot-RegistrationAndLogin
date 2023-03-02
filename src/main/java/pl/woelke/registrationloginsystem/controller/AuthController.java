@@ -11,6 +11,8 @@ import pl.woelke.registrationloginsystem.dto.UserDto;
 import pl.woelke.registrationloginsystem.entity.User;
 import pl.woelke.registrationloginsystem.service.UserService;
 
+import java.util.List;
+
 @Controller
 public class AuthController {
 
@@ -37,7 +39,7 @@ public class AuthController {
                                BindingResult result,
                                Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
-        if (existingUser != null) {
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "Istnieje już konto z podanym adresem email");
         }
@@ -49,5 +51,10 @@ public class AuthController {
         return "redirect:/register?success";
     }
 
-
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
 }
